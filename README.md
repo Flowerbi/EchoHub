@@ -13,7 +13,7 @@ EchoHub — это веб-приложение на Laravel, созданное 
 Просмотр постов всех пользователей.
 
 Комментарии под каждым постом.
-<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/0d6e63c6-a03d-4f27-9bd6-ec12ae366634" />
+<img style="display:block;" width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/0d6e63c6-a03d-4f27-9bd6-ec12ae366634" />
 
 Личный кабинет с информацией об аккаунте.
 
