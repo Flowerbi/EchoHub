@@ -26,10 +26,19 @@ class PageController extends Controller
 
     public function profile(User $profile)
     {
-        $profile_comments = Comment::whereAuthorId($profile->id)->get();
-        $profile_posts = Post::whereAuthorId($profile->id)->get();
+        $profile_comments = Comment::join('posts', 'comments.post_id', 'posts.id')
+            ->where('comments.author_id', $profile->id)
+            ->select([
+                'comments.id',
+                'comments.author_id',
+                'comments.post_id',
+                'comments.comment',
+                'comments.created_at',
+                'posts.title',
+            ])
+            ->get();
 
-        return view('pages.profile', ['user' => $profile, 'comments' => $profile_comments, 'posts' => $profile_posts]);
+        return view('pages.profile', ['user' => $profile, 'comments' => $profile_comments]);
     }
 
     public function profile_edit(User $profile)
@@ -39,13 +48,25 @@ class PageController extends Controller
 
     public function post(Post $post)
     {
-        $post_comments = Comment::join('users', 'users.id', '=', 'comments.author_id')->where('comments.post_id', $post->id)->get();
+        $post_comments = Comment::join('users', 'users.id', '=', 'comments.author_id')
+            ->where('comments.post_id', $post->id)
+            ->select([
+                'comments.id',
+                'comments.author_id',
+                'comments.post_id',
+                'comments.comment',
+                'comments.created_at',
+                'users.name',
+                'users.email',
+                'users.password',
+                'users.is_admin',
+                'users.avatar_image'
+            ])
+            ->get();
 
         $author_post = User::whereId($post->author_id)->first();
 
-        $post_comments_users = User::join('comments', 'users.id', '=', 'comments.author_id')->where('comments.post_id', $post->id)->get();
-
-        return view('pages.post', ['post' => $post, 'author_post' => $author_post,'users' => $post_comments_users, 'comments' => $post_comments]);
+        return view('pages.post', ['post' => $post, 'author_post' => $author_post, 'comments' => $post_comments]);
     }
 
     public function post_add()

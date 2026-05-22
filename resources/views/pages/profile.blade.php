@@ -24,7 +24,7 @@
             <div class="comments__items">
                 @foreach($comments as $comment)
                     <div class="comments__item item-comment">
-                        <div class="item-comment__name-post">Пост "{{ $posts->first()->title }}"</div>
+                        <div class="item-comment__name-post">Пост "{{ $comment->title }}"</div>
                         <div class="item-comment__inner">
                             @if($user->avatar_image)
                                 <img src="{{ $user->avatar_image }}" alt="default avatar user" class="item-comment__image">
